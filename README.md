@@ -1,6 +1,8 @@
 # Métodos Numéricos TI
 ### **Serie de Taylor** 
 
+-Derivadas
+
 -Porcentaje de Error
 
 -Numero de Iteración
