@@ -8,6 +8,7 @@ valini = float(input("Valor inicial de x\n"))  # valor inicial de x
 errabs = float(input("Error absoluto a obtener\n"))  # error absoluto pedido
 i = 0
 errorfinr = 100
+errornu = 100
 while errorfinr > errabs:
     funcion = eval(funini, {"x": valini, **math_functions})  # Evaluar la función con todas las funciones de math    print(funcion)
     i += 1
@@ -17,9 +18,8 @@ while errorfinr > errabs:
     errorfinr = round(errorfin, 4)  # redondear el error a 4 decimales
     print(f"El error es de {errorfinr}")
     valini = funcion  # el resultado se convierte en el nuevo valor inicial
-    errnu = 0  # error nuevo para comparar con el error anterior
-    if errorfinr > errnu:
+    if errorfinr > errornu:
         print(f"Los valores convergen")
         break
-    errnu = errorfinr
-    print(errnu)
+    errornu = errorfinr
+    print(errornu)
