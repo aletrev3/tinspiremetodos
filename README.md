@@ -1,15 +1,12 @@
 # Métodos Numéricos TI
 ### **Serie de Taylor** 
 
--Derivadas
-
--Porcentaje de Error
+-Error Absoluto
 
 -Numero de Iteración
 
--Error Absoluto y Relativo
+-Raiz Real para Error
 
--Raiz Real
 ### **Serie de McLaurin**
 
 -Porcentaje de Error
