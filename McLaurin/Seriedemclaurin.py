@@ -1,19 +1,14 @@
 import math
 import sympy as sp
 
-print("Serie de Taylor\n\n")
-print("ST=f(a)+(f'(a)(x-a))+(f''(a)(x-a)^2)/2!+(f'''(a)(x-a)^3)/3!+...+f^n(a)(x-a)^n/n!\n\n")
-
-
+print ("Serie de McLaurin\n\n")
+print("ST=f(0)+(f'(0)x)+(f''(0)x^2)/2!+(f'''(0)x^3)/3!+...+f^n(0)x^n/n!\n\n")
 def derivadas():  # función que calcula las derivadas de f(x)
     funcionO = input("Función\n")  # f(x) de usuario
     numder = input("Número de derivadas\n")
     numder = int(numder)  # declaracion de variable como int
-    valorx = input("Valor de a\n")
-    valorx = float(valorx)
     num = 0
     st = []
-    stx = []
     div = sp.symbols('div')
     fact = sp.factorial(div)
     numfac = 0
@@ -23,12 +18,11 @@ def derivadas():  # función que calcula las derivadas de f(x)
         numfac += 1
         divfact = fact.subs(div, numfac)
         facfinal = divfact
-        derres = dfo_dx.subs(x, valorx)
+        derres = dfo_dx.subs(x, 0)
         derredres = round(derres, 4)
         cfact = derredres / divfact
         cfactr = round(cfact, 4)
-        stx.append(f"({dfo_dx})((x-{valorx})^{num+1})/{divfact}")
-        st.append(f"(({cfactr})((x-{valorx})^{num+1}))")
+        st.append(f"(({cfactr})((x)^{num+1}))")
         print(f"{num +1} derivada resuelta = {derredres}")
         funcionO = dfo_dx  # convertir la derivada en la nueva original para derivadas de mayor grado 
         num += 1
@@ -37,8 +31,6 @@ def derivadas():  # función que calcula las derivadas de f(x)
     # for stdiv in range (numder):
      #   stdiv += 1
       #  std.append(f"ST= {stdiv}")
-    print(f" + ".join(stx),"\n\n")
-
     print(f" + ".join(st))
 
 
