@@ -13,6 +13,7 @@ def derivadas():  # función que calcula las derivadas de f(x)
     valorx = float(valorx)
     num = 0
     st = []
+    stx = []
     div = sp.symbols('div')
     fact = sp.factorial(div)
     numfac = 0
@@ -26,7 +27,8 @@ def derivadas():  # función que calcula las derivadas de f(x)
         derredres = round(derres, 4)
         cfact = derredres / divfact
         cfactr = round(cfact, 4)
-        st.append(f"(({cfactr})((x-{valorx})^{num+1}))/{divfact}")
+        stx.append(f"({dfo_dx})((x-{valorx})^{num+1})/{divfact}")
+        st.append(f"(({cfactr})((x-{valorx})^{num+1}))")
         print(f"{num +1} derivada resuelta = {derredres}")
         funcionO = dfo_dx  # convertir la derivada en la nueva original para derivadas de mayor grado 
         num += 1
@@ -35,6 +37,8 @@ def derivadas():  # función que calcula las derivadas de f(x)
     # for stdiv in range (numder):
      #   stdiv += 1
       #  std.append(f"ST= {stdiv}")
+    print(f" + ".join(stx),"\n\n")
+
     print(f" + ".join(st))
 
 
