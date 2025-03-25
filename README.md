@@ -1,11 +1,11 @@
 # Métodos Numéricos TI
 ### **Serie de Taylor** 
 
--Error Absoluto
+-Formula
 
--Numero de Iteración
+-Derivadas
 
--Raiz Real para Error
+-Sustitución en Fórmula
 
 ### **Serie de McLaurin**
 
@@ -56,11 +56,15 @@
 
 ### **Método de Punto Fijo**
 
+-Función de usuario
+
+-Valor de x
+
 -Porcentaje de Error
 
 -Numero de Iteración
 
--Error Absoluto y Relativo
+-Convergencia o error
 
 -Raiz Real         
       
