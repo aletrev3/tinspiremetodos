@@ -36,4 +36,4 @@ while errorfinr > errabs:
         print(f"Los valores convergen")
         break
     errnu = errorfinr
-    print(errnu)
+    
