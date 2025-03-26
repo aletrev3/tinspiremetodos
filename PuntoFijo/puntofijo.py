@@ -1,39 +1,47 @@
 import sys
-import math
 import sympy as sp
 import mpmath
+
 mpmath.mp.dps = 15  # Ajustar la precisión a 15 dígitos
-sys.set_int_max_str_digits(1000000)  # Aumenta el límite a 10,000 dígitos
+sys.set_int_max_str_digits(1000000)  # Aumentar el límite de dígitos grandes
 
-print("Método de Punto Fijo")
+print("Método de Punto Fijo\n")
 
-funini = input("Función inicial\nx= ")  # función inicial por usuario
-valini = float(input("Valor inicial de x\n"))  # valor inicial de x
-valini = float(valini)  # convertir el valor inicial en un float
-errabs = input("Error absoluto a obtener\n")  # error absoluto pedido
-errabs = float(errabs)  # convertir el error absoluto en un float
+# Entrada de la función inicial
+funini = input("Función inicial\nx = ")  
+x = sp.symbols('x')  # Declarar x como variable simbólica
+
+# Convertir la función de usuario en una expresión simbólica
+funcion = sp.sympify(funini)
+
+# Valor inicial de x
+valini = float(input("Valor inicial de x\n"))
+
+# Error absoluto deseado
+errabs = float(input("Error absoluto a obtener\n"))
+
 i = 0
-errorfinr = 100
-errnu = 100
+errorfinr = 100  # Se inicia con un valor alto
+errnu = None  # Inicializar variable para detectar convergencia
+
 while errorfinr > errabs:
     i += 1
-    x = sp.symbols('x')  # x como variable simbolica hasta que se le de valor
-    x.evalf()
-    print(x)
-    # convertir la función en una expresión simbolica
-    funcion = sp.sympify(funini)
-    # sustituir x como variable simbolica por el valor inicial
-    resultado = (funcion.subs(x, valini).evalf())
-    res = resultado  # redondear el resultado a 4 decimales
-    print(f"Para la iteración {i} , x= {res}")
-    # asegurar que errorfin es numérico
-    errorfin = abs((res - valini) / res).evalf()
-    errorfinr = round(errorfin, 4)  # redondear el error a 4 decimales
-    print(f"El error es de {errorfinr}")
-    valini = res  # el resultado se convierte en el nuevo valor inicial
-    valini.evalf()
-    if errorfinr > errnu:
-        print(f"Los valores convergen")
+
+    # Evaluar la función en el valor actual de x
+    resultado = funcion.subs(x, valini).evalf()  
+
+    print(f"Iteración {i}: x = {resultado}")
+
+    # Calcular el error relativo correctamente
+    if i > 1:  # Evitar calcular error en la primera iteración
+        errorfin = abs((resultado - valini))
+        errorfinr = round(errorfin, 6)  # Redondear el error
+        print(f"Error = {errorfinr}")
+
+    # Verificar convergencia en la segunda iteración en adelante
+    if errnu is not None and errorfinr > errnu:
+        print("Valores no convergen.")
         break
+
     errnu = errorfinr
-    
+    valini = resultado
