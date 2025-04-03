@@ -9,13 +9,12 @@
 
 ### **Serie de McLaurin**
 
--Porcentaje de Error
+-Formula
 
--Numero de Iteración
+-Derivadas
         
--Error Absoluto y Relativo
-
--Raiz Real 
+-Sustitución
+ 
 
 ### **Método de la Secante**
 -Porcentaje de Error
