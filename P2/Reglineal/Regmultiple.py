@@ -1,13 +1,11 @@
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score
 
-# Entrada de datos
-n_obs = int(input("¿Cuántas columnas vas a ingresar? "))
-n_vars = int(input("¿Cuántos renglones tiene cada columna? "))
+# Pedir datos al usuario
+n_obs = int(input("¿Cuántos renglones vas a ingresar? "))
+n_vars = int(input("¿Cuántas x vas a ingresar? "))
 
-X = [] 
+X = []
 y = []
 
 # Recolectar datos
@@ -21,59 +19,29 @@ for i in range(n_obs):
     X.append(fila)
     y.append(yi)
 
-# Convertir a arrays y dataframe
 X = np.array(X)
 y = np.array(y)
+n = len(X)
 
-df = pd.DataFrame(X, columns=[f"x{i+1}" for i in range(n_vars)])
-df["y"] = y
+# Crear tabla base
+tabla = pd.DataFrame(X, columns=[f"x{j+1}" for j in range(n_vars)])
+tabla["y"] = y
 
-# Entrenar modelo
-model = LinearRegression()
-model.fit(X, y)
+# Añadir productos x_i * x_j
+for i in range(n_vars):
+    for j in range(i, n_vars):
+        tabla[f"x{i+1}*x{j+1}"] = tabla[f"x{i+1}"] * tabla[f"x{j+1}"]
 
-# Mostrar tabla de datos
-print("\n=== TABLA DE DATOS INGRESADOS ===")
-print(df.to_string(index=False))
+# Añadir productos x_i * y
+for i in range(n_vars):
+    tabla[f"x{i+1}*y"] = tabla[f"x{i+1}"] * tabla["y"]
 
-# Mostrar ecuación
-print("\n=== ECUACIÓN DE REGRESIÓN LINEAL MÚLTIPLE ===")
-print(f"Intercepto (a): {model.intercept_:.4f}")
-for i, coef in enumerate(model.coef_):
-    print(f"b{i+1} (coef x{i+1}): {coef:.4f}")
-    
-ecuacion = f"y = {model.intercept_:.4f}"
-for i, coef in enumerate(model.coef_):
-    ecuacion += f" + ({coef:.4f})*x{i+1}"
-print("\nEcuación completa:")
-print(ecuacion)
+# Mostrar la tabla completa con valores
+print("\nTABLA COMPLETA:")
+print(tabla.to_string(index=False))
 
-# Evaluación del modelo
-y_pred = model.predict(X)
-print("\n=== MÉTRICAS DEL MODELO ===")
-print("Error cuadrático medio (MSE):", mean_squared_error(y, y_pred))
+# Calcular y mostrar sumatorias
+sumatorias = tabla.sum().to_frame(name="∑ Valores").T
+print("\nSUMATORIAS:")
+print(sumatorias.to_string(index=False))
 
-# Predicción con valores nuevos 
-while True:
-    respuesta = input("\n¿Deseas predecir y con nuevos valores? (s/n): ").lower()
-    if respuesta != 's':
-        break
-
-    nuevos_valores = []
-    print("Introduce los valores de las variables independientes:")
-    for i in range(n_vars):
-        val = float(input(f"  x{i+1}: "))
-        nuevos_valores.append(val)
-
-    nuevos_valores_np = np.array([nuevos_valores])
-    prediccion = model.predict(nuevos_valores_np)[0]
-
-    # Desglose paso a paso
-    print("\n=== ECUACIÓN CON NUEVOS VALORES ===")
-    print(f"y = {model.intercept_:.4f}", end=" ")
-    suma = model.intercept_
-    for i, (coef, valor) in enumerate(zip(model.coef_, nuevos_valores)):
-        prod = coef * valor
-        suma += prod
-        print(f"+ ({coef:.4f} * {valor})", end=" ")
-    print(f"\n=> y N = {suma:.4f}")
