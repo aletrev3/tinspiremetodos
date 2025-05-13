@@ -1,66 +1,50 @@
-from fractions import Fraction
 import numpy as np
 
-def print_step(matrix, step_desc, row_labels):
-    """ Imprime la matriz y la descripción del paso en fracciones """
-    print(step_desc)
-    print("\t".join(row_labels))
-    for i, row in enumerate(matrix):
-        print(f"{row_labels[i]}:\t" + "\t".join(f"{Fraction(num).limit_denominator()}" for num in row))
-    print("\n" + "="*60 + "\n")
+def imprimir_matriz(matriz, mensaje=""):
+    if mensaje:
+        print(f"\n{mensaje}")
+    for fila in matriz:
+        print("  ".join(f"{elem:8.3f}" for elem in fila))
+    print()
 
-def gauss_jordan(matrix):
-    """ Aplica el método de Gauss-Jordan paso a paso """
-    matrix = np.array(matrix, dtype=float)
-    n, m = matrix.shape
-    row_labels = [f"R{i+1}" for i in range(n)]
+def gauss_jordan():
+    n = int(input("¿Cuántas ecuaciones (y variables) tiene el sistema?: "))
 
-    step_count = 1
+    matriz = []
+    print("\nIngresa los coeficientes y el término independiente para cada ecuación:")
     for i in range(n):
-        # Si el pivote es cero, intercambiamos filas
-        if matrix[i, i] == 0:
-            for j in range(i + 1, n):
-                if matrix[j, i] != 0:
-                    matrix[[i, j]] = matrix[[j, i]]
-                    row_labels[i], row_labels[j] = row_labels[j], row_labels[i]
-                    print_step(matrix, f"Paso {step_count}: Intercambio de filas {row_labels[i]} ↔ {row_labels[j]}", row_labels)
-                    step_count += 1
-                    break
+        fila = []
+        for j in range(n):
+            val = float(input(f"Coeficiente x{j+1} en ecuación {i+1}: "))
+            fila.append(val)
+        b = float(input(f"Término independiente en ecuación {i+1}: "))
+        fila.append(b)
+        matriz.append(fila)
 
-        # Normalizamos la fila dividiendo por el pivote
-        pivot = matrix[i, i]
-        matrix[i] = matrix[i] / pivot
-        print_step(matrix, f"Paso {step_count}: {row_labels[i]} / {Fraction(pivot).limit_denominator()}", row_labels)
-        step_count += 1
+    A = np.array(matriz, dtype=float)
+    imprimir_matriz(A, "Matriz aumentada inicial:")
 
-        # Hacemos ceros en las demás filas
-        for k in range(n):
-            if k != i:
-                factor = matrix[k, i]
-                matrix[k] -= factor * matrix[i]
-                print_step(matrix, f"Paso {step_count}: {row_labels[k]} - ({Fraction(factor).limit_denominator()}) * {row_labels[i]}", row_labels)
-                step_count += 1
-
-    # Extraemos la solución en fracciones
-    solution = [Fraction(val).limit_denominator() for val in matrix[:, -1]]
-    print("Solución Final:")
-    for i, val in enumerate(solution):
-        print(f"x{i+1} = {val}")
-    return solution
-
-def main():
-    n = int(input("Ingrese el número de ecuaciones: "))
-    matrix = []
-
-    print("Ingrese la matriz aumentada fila por fila:")
+    # Gauss-Jordan
     for i in range(n):
-        row = list(map(float, input(f"Fila {i+1}: ").split()))
-        if len(row) != n + 1:
-            print("Error: la fila debe tener el mismo número de columnas que el número de incógnitas más uno (término independiente).")
+        # Hacer el pivote 1
+        pivote = A[i][i]
+        if pivote == 0:
+            print(f"No se puede dividir por 0 en la fila {i+1}.")
             return
-        matrix.append(row)
+        A[i] = A[i] / pivote
+        imprimir_matriz(A, f"Paso {i+1}.1: Fila {i+1} dividida entre {pivote:.3f} para hacer 1 el pivote.")
 
-    gauss_jordan(matrix)
+        # Hacer ceros en la columna i
+        for j in range(n):
+            if j != i:
+                factor = A[j][i]
+                A[j] = A[j] - factor * A[i]
+                imprimir_matriz(A, f"Paso {i+1}.2: Fila {j+1} menos {factor:.3f} × Fila {i+1}.")
 
-if __name__ == "__main__":
-    main()
+    # Mostrar resultado
+    imprimir_matriz(A, "Matriz reducida final (solución):")
+    for i in range(n):
+        print(f"x{i+1} = {A[i][-1]:.3f}")
+
+# Ejecutar el programa
+gauss_jordan()
