@@ -14,7 +14,7 @@ def gauss_jordan(matrix):
     matrix = np.array(matrix, dtype=float)
     n, m = matrix.shape
     row_labels = [f"R{i+1}" for i in range(n)]
-    
+
     step_count = 1
     for i in range(n):
         # Si el pivote es cero, intercambiamos filas
@@ -62,5 +62,5 @@ def main():
 
     gauss_jordan(matrix)
 
-if __name__ == "_main_":
+if __name__ == "__main__":
     main()
