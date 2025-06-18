@@ -1,8 +1,8 @@
 import sympy as sp
 print("Trapecio Simple")
 funcion = input("Ingrese la función a integrar: ")
-a = float(input("Ingrese el límite inferior (a): "))  
-b = float(input("Ingrese el límite superior (b): "))
+a = sp.Rational(input("Ingrese el límite inferior (a): "))  
+b = sp.Rational(input("Ingrese el límite superior (b): "))
 n = int(input("Ingrese el número de subintervalos (n): "))
 if n <= 0:
     raise ValueError("El número de subintervalos debe ser mayor que cero")

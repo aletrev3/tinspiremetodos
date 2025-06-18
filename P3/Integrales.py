@@ -6,9 +6,9 @@ x = sp.Symbol('x')
 y = sp.Symbol('y')
 z = sp.Symbol('z')
 s = sp.Symbol('s')
-y = 'y'
-volv = y
-while volv == 'y':
+v = 'v'
+volv = v
+while volv == 'v':
     op = str(input("Para que variable vas a integrar?\nx\ny\nz\ns\n"))
 
     if op == 'x':
@@ -32,4 +32,4 @@ while volv == 'y':
         integral = sp.integrate(funcion,(s, a, b))
         print(f"Integral resultado {integral}")
     funcion = integral
-    volv = input("Integrar resultado para otra variable?\ny/n\n")
+    volv = input("Integrar resultado para otra variable?\nv/n\n")
